@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_list/screens/shoplist_form.dart';
+import 'dart:math';
+import 'package:shopping_list/widgets/left_drawer.dart';
+import 'package:shopping_list/widgets/shop_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   final List<ShopItem> items = [
-    ShopItem("Lihat Produk", Icons.checklist),
-    ShopItem("Tambah Produk", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+    ShopItem("Lihat Produk", Icons.checklist, Colors.blue),
+    ShopItem("Tambah Produk", Icons.add_shopping_cart, Colors.green),
+    ShopItem("Logout", Icons.logout, Colors.red),
   ];
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -27,7 +31,9 @@ class MyHomePage extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -69,13 +75,6 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ShopItem {
-  final String name;
-  final IconData icon;
-
-  ShopItem(this.name, this.icon);
-}
-
 class ShopCard extends StatelessWidget {
   final ShopItem item;
 
@@ -84,7 +83,7 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.indigo,
+      color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -93,6 +92,10 @@ class ShopCard extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
+          if (item.name == "Tambah Produk") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ShopFormPage()));
+          }
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text
