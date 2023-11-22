@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                       'username': username,
                       'password': password,
                     });
+                print(response);
 
                 if (request.loggedIn) {
                   String message = response['message'];
